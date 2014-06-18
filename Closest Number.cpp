@@ -72,85 +72,71 @@ void arrayToVectorInt(int *arr,VI &vect,int len)
     }
 }
 
-
-#define MOD 1234567891
-VVI cache;
-int n;
-
-class TheCardLineDivTwo
+int solve(int a,int b,int x)
 {
-    VS cards;
+    double ab=0;
 
-
-    bool red(int card)
+    if(a==1)
     {
-        char suit=cards[card][1];
-
-        return suit=='H' || suit=='D';
+        ab=1;
+    }
+    else if(b==0)
+    {
+        ab=1;
+    }
+    else if(b==1)
+    {
+        ab=a;
+    }
+    else if(b==-1)
+    {
+        ab=1.0/(double)a;
+    }
+    else if(b<0)
+    {
+        ab=0;
+    }
+    else
+    {
+        ab=pow(a,b);
     }
 
-    bool compatible(int card1,int card2)
-    {
-        char rank1=cards[card1][0];
-        char rank2=cards[card2][0];
+    int ret1=(int)((ab/(double)x))*x;
+    int ret2=ret1+x;
+    int ret;
 
-        return rank1==rank2 || red(card1)==red(card2);
+    if(((ret1+ret2)/2.0)>=ab)
+    {
+        ret=ret1;
+    }
+    else
+    {
+        ret=ret2;
     }
 
-    int recurse(int last,int valid)
+    if(ab<0.5)
     {
-        if(cache[last][valid]!=-1)
-        {
-            return cache[last][valid];
-        }
-
-        if(valid==0)
-        {
-            return cache[last][valid]=1;
-        }
-
-        i64 ans=0;
-        int i;
-        REP(i,n)
-        {
-            if((valid & (1<<i)) && compatible(last,i))
-            {
-                ans=(ans+recurse(i,valid^(1<<i))) % MOD;
-            }
-        }
-
-        return cache[last][valid]=(int)ans;
+        ret=0;
     }
 
-public  :
-
-    int count(vector<string> cards)
-    {
-        this->cards=cards;
-        n=cards.size();
-        cache=VVI(n,VI(1<<n,-1));
-
-        i64 ans=0;
-        int all=(1<<n)-1;
-        int i;
-
-        REP(i,n)
-        {
-            ans=(ans+recurse(i,all^(1<<i))) % MOD;
-        }
-
-        return (int)ans;
-    }
-};
-
+    return (int)ret;
+}
 
 int main()
 {
-    string x[]={"KH", "QD", "KC"};
-    VS a;
-    arrayToVectorString(x,a,sizeof(x)/sizeof(*x));
-    TheCardLineDivTwo cc;
-    printf("%d\n",cc.count(a));
+    freopen("Text/Closest Number.txt","r",stdin);
+
+    int cases,a,b,x;
+
+    scanf("%d",&cases);
+
+    while(cases--)
+    {
+        scanf("%d %d %d",&a,&b,&x);
+        //printf("%d\t%d\t%d\n",a,b,x);
+        printf("%d\n",solve(a,b,x));
+    }
+
     return 0;
 }
 
