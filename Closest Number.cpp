@@ -72,9 +72,11 @@ void arrayToVectorInt(int *arr,VI &vect,int len)
     }
 }
 
+#define EPS 0
+
 int solve(int a,int b,int x)
 {
-    double ab=0;
+    long double ab=0;
 
     if(a==1)
     {
@@ -90,7 +92,7 @@ int solve(int a,int b,int x)
     }
     else if(b==-1)
     {
-        ab=1.0/(double)a;
+        ab=1.0/(long double)a;
     }
     else if(b<0)
     {
@@ -98,14 +100,14 @@ int solve(int a,int b,int x)
     }
     else
     {
-        ab=pow(a,b);
+        ab=(long double)pow((long double)a,(long double)b);
     }
 
-    int ret1=(int)((ab/(double)x))*x;
-    int ret2=ret1+x;
-    int ret;
+    i64 ret1=(i64)((ab/(long double)x))*(i64)x;
+    i64 ret2=ret1+x;
+    i64 ret;
 
-    if(((ret1+ret2)/2.0)>=ab)
+    if(((long double)(ret1+ret2)/2.0)>=(ab+EPS))
     {
         ret=ret1;
     }
